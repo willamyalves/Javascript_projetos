@@ -1,12 +1,8 @@
-let box = document.querySelector(".box");
+let nome = document.querySelector(".nome");
 
-// box.addEventListener("mousedown", ()=>{
-//     console.log("Clicado");
-// })
-// box.addEventListener("mouseup", ()=>{
-//     console.log("Soltou");
-// })
-
-box.addEventListener("dblclick", ()=>{
-    console.log("Duplo clique");
+nome.addEventListener("focus", ()=>{
+    console.log("Clicou");
+})
+nome.addEventListener("blur", ()=>{
+    console.log("Retirou o foco")
 })
