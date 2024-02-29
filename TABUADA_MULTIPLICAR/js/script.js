@@ -18,6 +18,9 @@ button.addEventListener("click", ()=>{
         alert("Preencha o multiplicador.");
     } else if(qtd.value !== "" && value.value == ""){
         alert("Preencha o número da tabuada.");
+    } else if(qtd.value <= 0){
+        alert("O multiplicador não pode ser menor ou igual a 0");
+        qtd.value = "";
     } else if(value.value !== "" && qtd.value !== ""){
         title2.innerHTML = `<h1 class="title-2">Tabuada do número: ${value.value}</h1>`;
 
