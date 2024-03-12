@@ -1,0 +1,77 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-decoration: none;
+}
+header nav{
+background-color: #333333;
+height: 50px;
+
+}
+header .centralize-nav{
+    width: 1000px;
+    height: 50px;
+    /* border: 1px solid red; */
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+    line-height: 50px;
+}
+header .centralize-nav a{
+    font-size: 12px;
+    height: 0px;
+    color: #FFF;
+    opacity: 0.9;
+    transition: 0.2s;
+}
+header .centralize-nav a:hover{
+    opacity: 1;
+}
+.info{
+    height: 55px;
+    border-bottom: 1px solid #b1b1b1;
+}
+.centralize-info{
+    width: 1000px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+}
+.info .centralize-info .name-product{
+    padding: 16px 0;
+    font-weight: bold;
+    font-size: 20px;
+}
+.info .centralize-info .info-nav{
+    padding: 20px 0;
+    display: flex;
+    gap: 25px;
+}
+.info .centralize-info .info-nav a{
+    color: #333333;
+    font-size: 13px;
+}
+.btn{
+    background-color: #0071E3;
+    padding: 8px 20px;
+    color: #FFF;
+    border-radius: 50px;
+}
+header .notification{
+    background-color: #F5F5F7;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    line-height: 50px;
+    font-size: 13px;
+}
+header .notification a{
+    color: rgb(29, 120, 224);
+}
+main{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
