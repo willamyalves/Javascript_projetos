@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de IMC</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main>
+
+
+        <div class="container-ext-form">
+            <h1>Calculadora de IMC</h1>
+            <form action="register.php">
+                <label for="height">Altura:</label>
+                <input type="number" name="height" class="height" placeholder="Exemplo: 1,75">
+                <label for="weight">Peso:</label>
+                <input type="number" name="weight" class="weight" placeholder="Exemplo: 70,5">
+                <div class="btns">
+                    <input type="button" class="calc" value="Calcular">
+                    <input type="button" class="clear" value="Limpar">
+                </div>
+            </form>
+        </div> 
+
+
+
+        <div class="result none">
+            <h1>Seu IMC: <span class="imc"></span></h1>
+            <p>Situação atual:  <span class="situation"></span></p>
+            <div class="classifications">
+                <h2>Confira as classificações</h2>
+                <div class="classifications-table">
+                    <ul>
+                        <li>
+                            IMC
+                        </li>
+                        <li>
+                            Menor que 18,5
+                        </li>
+                        <li>
+                            Entre 18,5 e 24,9
+                        </li>
+                        <li>
+                            Entre 25,0 e 29,9
+                        </li>
+                        <li>
+                            Entre 30,0 e 39,9
+                        </li>
+                        <li>
+                            Maior que 40,0
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            Classificação
+                        </li>
+                        <li>
+                            Magreza
+                        </li>
+                        <li>
+                            Normal
+                        </li>
+                        <li>
+                            Sobrepeso
+                        </li>
+                        <li>
+                            Obesidade
+                        </li>
+                        <li>
+                            Obesidade grave
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            Obesidade
+                        </li>
+                        <li>
+                            0
+                        </li>
+                        <li>
+                            0
+                        </li>
+                        <li>
+                            I
+                        </li>
+                        <li>
+                            II
+                        </li>
+                        <li>
+                            III
+                        </li>
+                    </ul>
+                </div>
+                <ul class="line">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <input type="button" class="back" value="Voltar">
+            </div>
+        </div>
+
+
+
+    </main>
+</body>
+</html>

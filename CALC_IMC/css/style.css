@@ -1,0 +1,124 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Lato, sans-serif;
+}
+body{
+    background-color: #090E22;
+}
+li{
+    list-style: none;
+}
+main h1, label{
+    color: #FFF;
+}
+main h1{
+    padding-bottom: 35px;
+    font-size: 25px;
+    border-radius: 5px;
+}
+main{
+    background-color: #1D1E33;
+    width: 400px;
+    margin: 250px auto 0;
+    padding: 25px;
+    text-align: center;
+}
+main form{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    gap: 8px;
+}
+label[for="weight"]{
+    margin-top: 10px;
+}
+label{
+    font-weight: bold;
+}
+input[type="number"]{
+    height: 60px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+}
+.btns{
+    margin-top: 40px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+}
+input[type="button"]{
+    padding: 20px;
+    min-width: 160px;
+    font-size: 18px;
+    color: #FFF;
+    border: none;
+    cursor: pointer;
+    opacity: 0.9;
+    transition: 0.2s;
+    border-radius: 5px;
+    text-transform: uppercase;
+
+}
+input[type="button"]:hover{
+    opacity: 1;
+}
+.btns input[value="Calcular"]{
+    background-color: #DF3F36;
+}
+.btns input[value="Limpar"]{
+    background-color: #404042;
+}
+input[value="Voltar"]{
+    background-color: #DF3F36;
+    margin-top: 25px;
+    padding: 15px 45px;
+}
+.classifications{
+    margin-top: 20px;
+}
+.classifications h2{
+    margin-bottom: 25px;
+    font-size: 24px;
+    color: #ebebeb;
+}
+.classifications-table ul li{
+    color: #FFF;
+    /* border-bottom: 1px solid #797979; */
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    font-size: 14px;
+}
+.classifications-table ul{
+    margin: 0 12px;
+}
+.classifications-table{
+    display: flex;
+    justify-content: center;
+}
+.result h1{
+    font-size: 42px;
+}
+.result p{
+    font-size: 21px;
+    color: #c9c9c9;
+    margin-top: -20px;
+}
+.classifications .line li{
+    border-bottom: 1px solid #797979;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    position: relative;
+    opacity: 0.5;
+}
+.classifications .line{
+    margin-top: -203px;
+}
+.none{
+    display: none;
+}
+main .result .imc{
+    font-weight: normal;
+}
