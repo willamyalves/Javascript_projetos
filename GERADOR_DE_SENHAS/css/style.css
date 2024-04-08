@@ -1,0 +1,204 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'montserrat', sans-serif;
+    background-image: linear-gradient(to bottom, rgb(255, 53, 255), rgb(11, 117, 255));
+    height: 100vh;
+}
+main{
+    width: 900px;
+    min-height: 750px;
+    margin: 30px auto 50px;
+    background-color: #FFF;
+    display: flex;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+    /* border: 1px solid red; */
+}
+.bg{
+    width: 50%;
+    /* height: 100vh; */
+    /* border: 1px solid red; */
+    overflow: hidden;
+    background-image: url("/GERADOR_DE_SENHAS/img/bg-form.jpg");
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: saturation;
+}
+.bg-over-purple{
+    /* border: 1px solid red; */
+    height: 100%;
+    background-color: rgb(22, 0, 117, 0.7);
+    color: #FFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    font-size: 55px;
+}
+#bg-over-purple-main h3{
+    color: #FFF;
+}
+.form{
+width: 50%;
+/* border: 1px solid red; */
+}
+.container-form{
+    padding: 35px 25px;
+    /* border: 1px solid red; */
+}
+.form-header{
+    text-align: center;
+}
+.form-header h1{
+    font-size: 36px;
+}
+.form-header p{
+    font-size: 13px;
+    margin: 15px 0 25px;
+    color: #999;
+}
+label{
+    display: block;
+    font-weight: bold;
+    margin: 20px 0 5px;
+}
+.label-confirmation-passwd{
+    display: block;
+}
+input[type="text"], input[type="password"]{
+    padding: 5px 5px 5px 0;
+    width: 100%;
+    font-size: 15px;
+    border: none;
+    border-bottom: 1px solid #bbbbbb;
+}
+input[type="text"]:focus, input[type="password"]:focus{
+    outline: none;
+}
+.row-create-passwd{
+    margin-top: 15px;
+    font-size: 13px;
+    text-align: center;
+    color: #999;
+}
+.bold{
+    font-weight: bold;
+    color: #333;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.bold:hover{
+    font-weight: bold;
+    color: #2185e4;
+}
+form button[type="submit"]{
+    margin-top: 15px;
+    padding: 15px 30px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    background-color: rgb(149, 207, 62);
+    color: #FFF;
+    cursor: pointer;
+    opacity: 0.9;
+    transition: 0.3s;
+}
+form button[type="submit"]:hover{
+    opacity: 1;
+    background-color: rgb(132, 209, 17);
+}
+.container-button{
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+}
+.create-passwd{
+    border: 1px solid #dddddd;
+    padding: 20px;
+    margin-top: 20px;
+}
+.p-create-passwd{
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 15px;
+    color: #a5a5a5;
+}
+.create-passwd .qtd-character p, .create-passwd .letters p, .create-passwd .numbers p, .create-passwd .symbols p{
+    font-size: 13px;
+    font-weight: bold;
+}
+.create-passwd .qtd-character input{
+    border: 1px solid #949494;
+    color: rgb(83, 83, 83);
+    padding: 7px 4px;
+    width: 30px;
+}
+.create-passwd .qtd-character p{
+    height: 7px;
+    line-height: 30px;
+}
+.create-passwd .qtd-character, .create-passwd .letters, .create-passwd .numbers, .create-passwd .symbols{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+.create-passwd .create-passwd-button button{
+    margin-top: 15px;
+    padding: 15px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    background-color: rgb(13, 138, 221);
+    color: #FFF;
+    cursor: pointer;
+    opacity: 0.9;
+    transition: 0.3s;
+}
+.create-passwd .create-passwd-button button:hover{
+    opacity: 1;
+}
+.create-passwd .create-passwd-button{
+    text-align: center;
+}
+.created-passwd{
+    border: 1px solid #0099ff;
+    padding: 20px;
+    margin-top: 20px;
+}
+.container-form form .created-passwd{
+    text-align: center;
+}
+.container-form form .created-passwd .title{
+    color: rgb(48, 206, 0);
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.container-form form .created-passwd .password{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.container-form form .created-passwd .copy-passwd{
+    padding: 7px 12px;
+    border-radius: 20px;
+    color: rgb(48, 206, 0);
+    border: 2px solid rgb(44, 190, 0);
+    background-color: #FFF;
+    opacity: 0.9;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.container-form form .created-passwd .copy-passwd:hover{
+    background-color: rgb(44, 190, 0);
+    border: 2px solid rgb(44, 190, 0);
+    color: #FFF;
+    opacity: 1;
+}
+.hidden{
+    display: none;
+}
