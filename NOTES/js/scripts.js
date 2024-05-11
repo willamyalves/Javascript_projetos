@@ -3,6 +3,15 @@ const createBox = document.querySelector(".input-note button");
 let inputNote = document.querySelector(".input-note input");
 let main = document.querySelector("main");
 const search = document.querySelector(".search input");
+let listNote = []; 
+
+let lupa = document.querySelector(".fa-magnifying-glass");
+
+lupa.addEventListener("click", ()=>{
+    let teste = JSON.parse(localStorage.getItem("note"));
+    console.log(teste);
+})
+
 
 search.addEventListener("input", ()=>{
 
@@ -83,6 +92,8 @@ let createBoxFunction = (note) =>{
     boxes = document.querySelectorAll(".box");
 
     inputNote.value = "";
+
+    saveLocalStorage(note)
 
     // Adicionar manipuladores de eventos para xmark e copy dentro da nova caixa
     addEventListenersToBox(box);
@@ -189,13 +200,14 @@ window.addEventListener("keydown", (e)=>{
         createBoxFunction(inputNote.value);
     }
 })
-main.addEventListener("input", ()=>{
-    console.log("Houve edição");
-    console.log(main);
-    localStorage.setItem("updatedMain", main)
-})
 
-window.addEventListener("load", ()=>{
-    let recentMain = localStorage.getItem("updatedMain");
-    main = recentMain;
-})
+function saveLocalStorage(note){
+
+    let objectNote = {
+        content: note
+    }
+
+    listNote.push(objectNote);
+
+    localStorage.setItem("note", JSON.stringify(listNote));
+}
