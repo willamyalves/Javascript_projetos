@@ -3,13 +3,12 @@ const createBox = document.querySelector(".input-note button");
 let inputNote = document.querySelector(".input-note input");
 let main = document.querySelector("main");
 const search = document.querySelector(".search input");
-let listNote = []; 
+let listNote = getLocalStorage(); 
 
 let lupa = document.querySelector(".fa-magnifying-glass");
 
 lupa.addEventListener("click", ()=>{
-    let teste = JSON.parse(localStorage.getItem("note"));
-    console.log(teste);
+    console.log(objectNote)
 })
 
 
@@ -99,6 +98,107 @@ let createBoxFunction = (note) =>{
     addEventListenersToBox(box);
 }
 
+function duplicateBoxFunction(note){
+    let box = document.createElement("div");
+    box.classList.add("box");
+
+    let boxText = document.createElement("div");
+    boxText.classList.add("box-text");
+
+    box.appendChild(boxText);
+
+    let textArea = document.createElement("textarea");
+    textArea.placeholder = "Adicione algum texto...";
+    textArea.value = note;
+
+    let pin = document.createElement("div");
+    pin.classList.add("pin");
+
+    let thumbstack = document.createElement("i");
+    thumbstack.classList.add("fa-solid");
+    thumbstack.classList.add("fa-thumbtack");
+
+    pin.appendChild(thumbstack);
+
+    boxText.appendChild(textArea);
+    boxText.appendChild(pin);
+
+    let moreOptions = document.createElement("div");
+    moreOptions.classList.add("more-options");
+
+    let xmark = document.createElement("i");
+    xmark.classList.add("fa-solid");
+    xmark.classList.add("fa-xmark");
+
+    let copy = document.createElement("i");
+    copy.classList.add("fa-regular");
+    copy.classList.add("fa-copy");
+
+    moreOptions.appendChild(xmark);
+    moreOptions.appendChild(copy);
+
+    box.appendChild(moreOptions);
+
+    main.appendChild(box);
+
+    boxes = document.querySelectorAll(".box");
+
+    inputNote.value = "";
+
+    saveLocalStorage(note)
+
+    // Adicionar manipuladores de eventos para xmark e copy dentro da nova caixa
+    addEventListenersToBox(box);
+};
+
+function createBoxLS(note){
+    let box = document.createElement("div");
+    box.classList.add("box");
+
+    let boxText = document.createElement("div");
+    boxText.classList.add("box-text");
+
+    box.appendChild(boxText);
+
+    let textArea = document.createElement("textarea");
+    textArea.placeholder = "Adicione algum texto...";
+    textArea.value = note;
+
+    let pin = document.createElement("div");
+    pin.classList.add("pin");
+
+    let thumbstack = document.createElement("i");
+    thumbstack.classList.add("fa-solid");
+    thumbstack.classList.add("fa-thumbtack");
+
+    pin.appendChild(thumbstack);
+
+    boxText.appendChild(textArea);
+    boxText.appendChild(pin);
+
+    let moreOptions = document.createElement("div");
+    moreOptions.classList.add("more-options");
+
+    let xmark = document.createElement("i");
+    xmark.classList.add("fa-solid");
+    xmark.classList.add("fa-xmark");
+
+    let copy = document.createElement("i");
+    copy.classList.add("fa-regular");
+    copy.classList.add("fa-copy");
+
+    moreOptions.appendChild(xmark);
+    moreOptions.appendChild(copy);
+
+    box.appendChild(moreOptions);
+
+    main.appendChild(box);
+
+    boxes = document.querySelectorAll(".box");
+    
+    addEventListenersToBox(box);
+}
+
 function addEventListenersToBox(box) {
     const xmark = box.querySelector(".fa-xmark"); // Seleciona o ícone "X" dentro da caixa
     const copy = box.querySelector(".fa-copy"); // Seleciona o ícone de cópia dentro da caixa
@@ -176,6 +276,30 @@ function addEventListenersToBox(box) {
         e.stopPropagation(); // Impede a propagação do evento para elementos pai
         copy.style.opacity = "0.5"; // Define a opacidade do ícone de cópia como 0.5
     });
+
+    let noteLS_2 = [];
+
+    boxes.forEach((box)=>{
+        box.addEventListener("input", ()=>{
+            let teste = box.parentNode;
+            let textArea = teste.querySelectorAll(".box");
+            let noteLS_3 = [];
+            textArea.forEach((e)=>{
+                textArea = e.children[0].children[0];
+    
+                let objectNote = {
+                    content: textArea.value
+                }
+
+                noteLS_3.push(objectNote);
+            });
+    
+            // Após o término do último forEach
+            noteLS_2 = noteLS_3; // Substituir noteLS_2 por noteLS_3
+            
+            localStorage.setItem("note", JSON.stringify(noteLS_2))
+        });
+    });
 }
 
 createBox.addEventListener("click", () => {
@@ -186,13 +310,39 @@ window.addEventListener("click", (e)=>{
     if(e.target.classList.contains("fa-xmark")){
         let element = e.target.parentNode.parentNode;
         element.remove();
+
+        // console.log(element.children[0].children[0])
+
+        let textArea = element.children[0].children[0];
+
+        let objectList = (JSON.parse(localStorage.getItem("note")));
+
+        // console.log(objectList)
+
+        objectList.splice(objectList.findIndex(object => object.content === textArea.value), 1)
+
+        // console.log(objectList)
+
+        // console.log(noteLS);
+
+        noteLS = [];
+
+        if(objectList.length === 0){
+            localStorage.clear();
+        } if (objectList.length >= 1){
+        
+            objectList.forEach((note)=>{
+                noteLS.push(note);
+                localStorage.setItem("note", JSON.stringify(noteLS));
+            })
+        }
     }
 })
 window.addEventListener("click", (e)=>{
     if(e.target.classList.contains("fa-copy")){
         let element = e.target.parentNode.parentNode;
         let note = element.querySelector("textarea").value;
-        createBoxFunction(note);
+        duplicateBoxFunction(note);
     }
 })
 window.addEventListener("keydown", (e)=>{
@@ -211,3 +361,24 @@ function saveLocalStorage(note){
 
     localStorage.setItem("note", JSON.stringify(listNote));
 }
+
+function getLocalStorage(){
+    let note = (JSON.parse(localStorage.getItem("note")) || []);
+    return note;
+}
+function showLocalStorage(){
+    let notes = getLocalStorage(); // Obter o valor do localStorage
+
+    if (Array.isArray(notes)) { // Verificar se o valor é um array
+        notes.forEach((note) => {
+            createBoxLS(note.content);
+        });
+    } else {
+        console.error("O valor retornado do localStorage não é um array válido.");
+    }
+}
+
+showLocalStorage();
+
+
+// console.log(boxes)
