@@ -3,12 +3,11 @@ const createBox = document.querySelector(".input-note button");
 let inputNote = document.querySelector(".input-note input");
 let main = document.querySelector("main");
 const search = document.querySelector(".search input");
-let listNote = getLocalStorage(); 
 
 let lupa = document.querySelector(".fa-magnifying-glass");
 
 lupa.addEventListener("click", ()=>{
-    console.log(objectNote)
+
 })
 
 
@@ -16,7 +15,6 @@ search.addEventListener("input", ()=>{
 
     // Capturar o input de Search e transformá-lo em Lowercase
     let searchLowerCase = search.value.toLowerCase();
-    // console.log(searchLowerCase);
 
     // Capturar uma lista com o conteúdo em texto de todas as notas
     boxes.forEach((box)=>{
@@ -29,12 +27,10 @@ search.addEventListener("input", ()=>{
         // Lógica de busca if
         if(!(boxValuesNoteLowerCase.includes(searchLowerCase))){
             let boxTarget = boxValuesNote.parentNode.parentNode;
-            console.log(boxTarget);
             boxTarget.classList.add("hidden");
         }
         if(boxValuesNoteLowerCase.includes(searchLowerCase)){
             let boxTarget = boxValuesNote.parentNode.parentNode;
-            console.log(boxTarget);
             boxTarget.classList.remove("hidden");
         }
     })
@@ -88,11 +84,35 @@ let createBoxFunction = (note) =>{
 
     main.appendChild(box);
 
+    let id = Math.floor(Math.random()*10000);
+
+    boxes = document.querySelectorAll(".box");
+
+    if(boxes.length >= 2){
+
+        boxes.forEach((box)=>{
+            if(id === box.id){
+                id = Math.floor(Math.random()*10000);
+            }
+        })
+
+    }
+
+    box.id = id;
+
+    let fixed = Boolean;
+
+    boxes.forEach((box)=>{
+        if(box.classList.contains("fixed") === false){
+            fixed = false;
+        } else{fixed = true};
+    })
+
     boxes = document.querySelectorAll(".box");
 
     inputNote.value = "";
 
-    saveLocalStorage(note)
+    saveLocalStorage(note, id, fixed)
 
     // Adicionar manipuladores de eventos para xmark e copy dentro da nova caixa
     addEventListenersToBox(box);
@@ -141,17 +161,33 @@ function duplicateBoxFunction(note){
 
     main.appendChild(box);
 
+    let id = Math.floor(Math.random()*10000);
+
+    boxes = document.querySelectorAll(".box");
+
+    if(boxes.length >= 2){
+
+        boxes.forEach((box)=>{
+            if(id === box.id){
+                id = Math.floor(Math.random()*10000);
+            }
+        })
+
+    }
+
+    box.id = id;
+
     boxes = document.querySelectorAll(".box");
 
     inputNote.value = "";
 
-    saveLocalStorage(note)
+    saveLocalStorage(note, id)
 
     // Adicionar manipuladores de eventos para xmark e copy dentro da nova caixa
     addEventListenersToBox(box);
 };
 
-function createBoxLS(note){
+function createBoxLS(note, id, fixed){
     let box = document.createElement("div");
     box.classList.add("box");
 
@@ -194,6 +230,28 @@ function createBoxLS(note){
 
     main.appendChild(box);
 
+    box.id = id;
+
+    let textAreaElement = box.querySelector(".box-text textarea")
+    
+    // if(fixed == true){
+    //     box.classList.add("fixed");
+
+    //     // Move a box clicada para o início da lista de boxes
+    //     main.prepend(box); // Insere a box no início de main
+    //     box.style.backgroundColor = "#2a2b30";
+    //     textAreaElement.style.backgroundColor = "#2a2b30";
+
+    // }
+    // if(fixed == false){
+    //     box.classList.remove("fixed")
+
+    //         // Se a box foi desafixada (thumbstack não está clicado)
+    //         // Mantenha a ordem das outras boxes de acordo com a ordem em que foram clicadas
+    //         box.style.backgroundColor = "#202124";
+    //         textAreaElement.style.backgroundColor = "#202124";
+    // }
+
     boxes = document.querySelectorAll(".box");
     
     addEventListenersToBox(box);
@@ -219,23 +277,41 @@ function addEventListenersToBox(box) {
     // Evento de clique no thumbstack
     thumbstack.addEventListener("click", (e) => {
         e.stopPropagation(); // Impede a propagação do evento para elementos pai
-        isClicked = !isClicked; // Alterna o estado de clique do thumbstack
 
-        // Define a opacidade com base no estado de clique
-        thumbstack.style.opacity = isClicked ? "1" : "0.5";
-        let textAreaElement = box.querySelector(".box-text textarea")
+        e.target.closest(".box").classList.toggle("fixed");
 
-        if (isClicked) {
+        let textAreaElement = box.querySelector(".box-text textarea");
+
+        if(e.target.closest(".box").classList.contains("fixed")){
+
             // Move a box clicada para o início da lista de boxes
+
             main.prepend(box); // Insere a box no início de main
             box.style.backgroundColor = "#2a2b30";
             textAreaElement.style.backgroundColor = "#2a2b30";
-        } else {
+            thumbstack.style.opacity = "1";
+        }
+        if (!(e.target.closest(".box").classList.contains("fixed"))) {
+
             // Se a box foi desafixada (thumbstack não está clicado)
+            
             // Mantenha a ordem das outras boxes de acordo com a ordem em que foram clicadas
+
             box.style.backgroundColor = "#202124";
             textAreaElement.style.backgroundColor = "#202124";
-        }  
+            thumbstack.style.opacity = "0.5";
+        } 
+        let notes = getLocalStorage();
+
+        let objectNote = notes.find(note => note.id == e.target.closest(".box").id)
+
+        let index = notes.findIndex(note => note.id == e.target.closest(".box").id);
+
+        objectNote.fixed = !(objectNote.fixed);
+
+        notes[index] = objectNote;
+
+        localStorage.setItem("note", JSON.stringify(notes));
     });
 
     // Evento quando o mouse passa por cima da caixa
@@ -276,30 +352,49 @@ function addEventListenersToBox(box) {
         e.stopPropagation(); // Impede a propagação do evento para elementos pai
         copy.style.opacity = "0.5"; // Define a opacidade do ícone de cópia como 0.5
     });
+    
+
+    // Editar nota:
 
     let noteLS_2 = [];
 
-    boxes.forEach((box)=>{
-        box.addEventListener("input", ()=>{
-            let teste = box.parentNode;
-            let textArea = teste.querySelectorAll(".box");
-            let noteLS_3 = [];
-            textArea.forEach((e)=>{
-                textArea = e.children[0].children[0];
-    
-                let objectNote = {
-                    content: textArea.value
-                }
+    box.addEventListener("input", (e)=>{
 
-                noteLS_3.push(objectNote);
-            });
-    
-            // Após o término do último forEach
-            noteLS_2 = noteLS_3; // Substituir noteLS_2 por noteLS_3
-            
-            localStorage.setItem("note", JSON.stringify(noteLS_2))
+        // console.log(e.target.parentNode.parentNode.id);
+
+        let teste = box.parentNode;
+        let boxes = box.parentNode.querySelectorAll(".box");
+
+        let boxID = e.target.parentNode.parentNode.id;
+
+        // console.log(boxID)
+
+        let noteLS_3 = [];
+
+
+        boxes.forEach((box)=>{
+            textArea = box.children[0].children[0];
+            let boxID = box.id;
+
+            let objectNote = {
+                content: textArea.value,
+                id: boxID
+            }
+
+            noteLS_3.push(objectNote);
+
         });
+
+        // Após o término do último forEach
+        noteLS_2 = noteLS_3; // Substituir noteLS_2 por noteLS_3
+
+        // console.log(noteLS_2)
+
+        
+        localStorage.setItem("note", JSON.stringify(noteLS_2))
+
     });
+
 }
 
 createBox.addEventListener("click", () => {
@@ -311,19 +406,11 @@ window.addEventListener("click", (e)=>{
         let element = e.target.parentNode.parentNode;
         element.remove();
 
-        // console.log(element.children[0].children[0])
-
         let textArea = element.children[0].children[0];
 
         let objectList = (JSON.parse(localStorage.getItem("note")));
 
-        // console.log(objectList)
-
         objectList.splice(objectList.findIndex(object => object.content === textArea.value), 1)
-
-        // console.log(objectList)
-
-        // console.log(noteLS);
 
         noteLS = [];
 
@@ -341,8 +428,9 @@ window.addEventListener("click", (e)=>{
 window.addEventListener("click", (e)=>{
     if(e.target.classList.contains("fa-copy")){
         let element = e.target.parentNode.parentNode;
+        let elementID = element.id;
         let note = element.querySelector("textarea").value;
-        duplicateBoxFunction(note);
+        duplicateBoxFunction(note, elementID);
     }
 })
 window.addEventListener("keydown", (e)=>{
@@ -351,15 +439,19 @@ window.addEventListener("keydown", (e)=>{
     }
 })
 
-function saveLocalStorage(note){
+function saveLocalStorage(note, id, fixed){
+
+    listNotes = getLocalStorage()
 
     let objectNote = {
-        content: note
+        content: note,
+        id: id,
+        fixed: fixed
     }
 
-    listNote.push(objectNote);
+    listNotes.push(objectNote);
 
-    localStorage.setItem("note", JSON.stringify(listNote));
+    localStorage.setItem("note", JSON.stringify(listNotes));
 }
 
 function getLocalStorage(){
@@ -371,7 +463,7 @@ function showLocalStorage(){
 
     if (Array.isArray(notes)) { // Verificar se o valor é um array
         notes.forEach((note) => {
-            createBoxLS(note.content);
+            createBoxLS(note.content, note.id, note.fixed);
         });
     } else {
         console.error("O valor retornado do localStorage não é um array válido.");
@@ -379,6 +471,3 @@ function showLocalStorage(){
 }
 
 showLocalStorage();
-
-
-// console.log(boxes)
