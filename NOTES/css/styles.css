@@ -151,3 +151,35 @@ main{
 .hidden{
     display: none;
 }
+
+@media screen and (max-width:450px) {
+    .header-container{
+        flex-wrap: wrap;
+        
+    }
+    .search{
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .h1-container{
+        margin: 0 auto 20px;
+        font-size: 22px;
+    }
+    .export{
+        margin: auto;
+    }
+    .icon-container{
+        display: none;
+    }
+    main{
+        flex-direction: column;
+    }
+    .box{
+        width: 85%;
+        margin: auto;
+    }
+    .more-options{
+        margin-top: 15px;
+        margin-right: -15px;
+    }
+}
