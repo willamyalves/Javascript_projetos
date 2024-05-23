@@ -3,6 +3,7 @@ const createBox = document.querySelector(".input-note button");
 let inputNote = document.querySelector(".input-note input");
 let main = document.querySelector("main");
 const search = document.querySelector(".search input");
+const exportButton = document.querySelector(".export button");
 
 let lupa = document.querySelector(".fa-magnifying-glass");
 
@@ -118,7 +119,7 @@ let createBoxFunction = (note) =>{
     addEventListenersToBox(box);
 }
 
-function duplicateBoxFunction(note){
+function duplicateBoxFunction(note, fixed){
     let box = document.createElement("div");
     box.classList.add("box");
 
@@ -177,11 +178,65 @@ function duplicateBoxFunction(note){
 
     box.id = id;
 
+    let textAreaElement = box.querySelector(".box-text textarea")
+    
+    if(fixed == true){
+        box.classList.add("fixed");
+        let listNote = []
+
+
+
+        
+        boxes.forEach((box)=>{
+            let objectNote = {
+                content: box.children[0].children[0].value,
+                id: box.id,
+                fixed: box.classList.contains("fixed")
+            }
+
+
+            listNote.push(objectNote);
+        })
+        localStorage.setItem("note", JSON.stringify(listNote));
+
+        // Move a box clicada para o início da lista de boxes
+        main.prepend(box); // Insere a box no início de main
+        box.style.backgroundColor = "#2a2b30";
+        textAreaElement.style.backgroundColor = "#2a2b30";
+
+    }
+    if(fixed == false){
+
+        box.classList.remove("fixed")
+
+
+
+        let listNote = []
+
+        
+        boxes.forEach((box)=>{
+            let objectNote = {
+                content: box.children[0].children[0].value,
+                id: box.id,
+                fixed: box.classList.contains("fixed")
+            }
+
+            listNote.push(objectNote);
+
+        })
+        localStorage.setItem("note", JSON.stringify(listNote));
+
+
+            // Se a box foi desafixada (thumbstack não está clicado)
+            // Mantenha a ordem das outras boxes de acordo com a ordem em que foram clicadas
+            box.style.backgroundColor = "#202124";
+            textAreaElement.style.backgroundColor = "#202124";
+
+    }
+
     boxes = document.querySelectorAll(".box");
 
     inputNote.value = "";
-
-    saveLocalStorage(note, id)
 
     // Adicionar manipuladores de eventos para xmark e copy dentro da nova caixa
     addEventListenersToBox(box);
@@ -234,23 +289,23 @@ function createBoxLS(note, id, fixed){
 
     let textAreaElement = box.querySelector(".box-text textarea")
     
-    // if(fixed == true){
-    //     box.classList.add("fixed");
+    if(fixed == true){
+        box.classList.add("fixed");
 
-    //     // Move a box clicada para o início da lista de boxes
-    //     main.prepend(box); // Insere a box no início de main
-    //     box.style.backgroundColor = "#2a2b30";
-    //     textAreaElement.style.backgroundColor = "#2a2b30";
+        // Move a box clicada para o início da lista de boxes
+        main.prepend(box); // Insere a box no início de main
+        box.style.backgroundColor = "#2a2b30";
+        textAreaElement.style.backgroundColor = "#2a2b30";
 
-    // }
-    // if(fixed == false){
-    //     box.classList.remove("fixed")
+    }
+    if(fixed == false){
+        box.classList.remove("fixed")
 
-    //         // Se a box foi desafixada (thumbstack não está clicado)
-    //         // Mantenha a ordem das outras boxes de acordo com a ordem em que foram clicadas
-    //         box.style.backgroundColor = "#202124";
-    //         textAreaElement.style.backgroundColor = "#202124";
-    // }
+            // Se a box foi desafixada (thumbstack não está clicado)
+            // Mantenha a ordem das outras boxes de acordo com a ordem em que foram clicadas
+            box.style.backgroundColor = "#202124";
+            textAreaElement.style.backgroundColor = "#202124";
+    }
 
     boxes = document.querySelectorAll(".box");
     
@@ -362,10 +417,7 @@ function addEventListenersToBox(box) {
 
         // console.log(e.target.parentNode.parentNode.id);
 
-        let teste = box.parentNode;
         let boxes = box.parentNode.querySelectorAll(".box");
-
-        let boxID = e.target.parentNode.parentNode.id;
 
         // console.log(boxID)
 
@@ -375,10 +427,12 @@ function addEventListenersToBox(box) {
         boxes.forEach((box)=>{
             textArea = box.children[0].children[0];
             let boxID = box.id;
+            let fixed = box.classList.contains("fixed");
 
             let objectNote = {
                 content: textArea.value,
-                id: boxID
+                id: boxID,
+                fixed: fixed
             }
 
             noteLS_3.push(objectNote);
@@ -430,7 +484,10 @@ window.addEventListener("click", (e)=>{
         let element = e.target.parentNode.parentNode;
         let elementID = element.id;
         let note = element.querySelector("textarea").value;
-        duplicateBoxFunction(note, elementID);
+
+        let fixed = e.target.closest(".box").classList.contains("fixed");
+
+        duplicateBoxFunction(note, fixed);
     }
 })
 window.addEventListener("keydown", (e)=>{
@@ -440,6 +497,8 @@ window.addEventListener("keydown", (e)=>{
 })
 
 function saveLocalStorage(note, id, fixed){
+
+
 
     listNotes = getLocalStorage()
 
@@ -471,3 +530,42 @@ function showLocalStorage(){
 }
 
 showLocalStorage();
+
+exportButton.addEventListener("click", ()=>{
+    let notes = getLocalStorage();
+    let list = [];
+
+    // console.log(notes);
+
+    notes.forEach((note)=>{
+        // console.log(note)
+        listNote = [note.content, note.id, note.fixed]
+        list.push(listNote);
+    })
+
+    csvList = [
+        "Conteúdo", "Id", "Fixado?", ...list
+    ]
+
+    csvList = csvList.join();
+
+    csvList2 = csvList.replace("Fixado?,", "Fixado?,\n")
+
+    csvList3 = csvList2.replace(/false,/g, "false,\n");
+
+    csvList4 = csvList3.replace(/true,/g, "true,\n");
+
+     const csvNotes = csvList4;
+
+     console.log(csvNotes);
+
+    const element = document.createElement("a");
+
+    element.href = "data:text/csv;charset=utf-8," + encodeURI(csvNotes);
+
+    element.target = "_blank";
+
+    element.download = "notes.csv";
+
+    element.click();
+})
