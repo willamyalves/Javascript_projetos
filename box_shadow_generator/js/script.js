@@ -78,21 +78,27 @@ class BoxShadowGenerator{
             case "horizontal":
                 this.horizontalRef.value = value;
                 break;
+
             case "vertical":
                 this.verticalRef.value = value;
                 break;
+
             case "blur":
                 this.blurRef.value = value;
                 break;
+
             case "spread":
                 this.spreadRef.value = value;
                 break;
+
             case "color":
                 this.colorRef.value = value;
                 break;
+
             case "opacity":
                 this.opacityRef.value = value;
                 break;
+
             case "inset":
                 this.insetValue = value;
                 break;
@@ -212,3 +218,5 @@ inset.addEventListener("input", (e)=>{
 rules.addEventListener("click", ()=>{
     boxShadow.copyText();
 })
+
+console.log(boxShadow);
